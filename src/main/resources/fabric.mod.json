@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "pioneer",
+	"version": "${version}",
+	"name": "Pioneer",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Kimit"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/pioneer/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"kimit.pioneer.Pioneer"
+		],
+		"client": [
+          "kimit.pioneer.client.PioneerClient"
+		],
+		"fabric-datagen": [
+          "kimit.pioneer.datagen.PioneerDataGenerator"
+		]
+	},
+	"mixins": [
+		"pioneer.mixins.json",
+		{
+			"config": "pioneer.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.7",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
