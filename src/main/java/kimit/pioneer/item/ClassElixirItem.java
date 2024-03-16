@@ -2,6 +2,7 @@ package kimit.pioneer.item;
 
 import kimit.pioneer.elixir.ClassElixir;
 import kimit.pioneer.elixir.ClassElixirUtil;
+import kimit.pioneer.player.PlayerDataAccessor;
 import kimit.pioneer.player.PlayerState;
 import kimit.pioneer.registry.ItemRegistry;
 import net.minecraft.advancement.criterion.Criteria;
@@ -60,6 +61,7 @@ public class ClassElixirItem extends Item
 				if (elixir != null)
 				{
 					PlayerState.getPlayerData(player).Class = elixir.Class();
+					((PlayerDataAccessor) user).setPlayerData(PlayerState.getPlayerData(user));
 					elixir.Class().clear(player);
 					elixir.Class().apply(player);
 				}

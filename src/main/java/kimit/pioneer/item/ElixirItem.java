@@ -3,6 +3,7 @@ package kimit.pioneer.item;
 import kimit.pioneer.elixir.Elixir;
 import kimit.pioneer.elixir.ElixirQuality;
 import kimit.pioneer.elixir.ElixirUtil;
+import kimit.pioneer.player.PlayerDataAccessor;
 import kimit.pioneer.player.PlayerState;
 import kimit.pioneer.registry.ItemRegistry;
 import net.minecraft.advancement.criterion.Criteria;
@@ -68,6 +69,7 @@ public class ElixirItem extends Item
 					Map<String, Float> attributes = PlayerState.getPlayerData(user).Attributes;
 					float value = elixir.getRight().getQuality() * elixir.getLeft().Value();
 					attributes.put(elixir.getLeft().Attribute().Id(), attributes.getOrDefault(elixir.getLeft().Attribute().Id(), 0.0f) + value);
+					((PlayerDataAccessor) user).setPlayerData(PlayerState.getPlayerData(user));
 					player.getAttributeInstance(elixir.getLeft().Attribute().Attribute()).addPersistentModifier(new EntityAttributeModifier("Elixir bonus", value, EntityAttributeModifier.Operation.ADDITION));
 				}
 			}
