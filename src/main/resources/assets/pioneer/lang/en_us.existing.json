@@ -6,7 +6,7 @@
   "item.pioneer.elixir.attack_speed": "Elixir of Attack Speed",
   "item.pioneer.elixir.knockback_resistance": "Elixir of Knockback Resistance",
   "item.pioneer.elixir.luck": "Elixir of Luck",
-  "item.pioneer.elixir.health": "Elixir of Max Health",
+  "item.pioneer.elixir.health": "Elixir of Health",
   "item.pioneer.elixir.movement_speed": "Elixir of Movement Speed",
   "item.pioneer.elixir.tooltip.quality_low": "Low Quality",
   "item.pioneer.elixir.tooltip.quality_medium": "Medium Quality",
@@ -23,5 +23,16 @@
   "gui.pioneer.playerdata.attribute.attack_speed": "Attack Speed: %s",
   "gui.pioneer.playerdata.attribute.knockback_resistance": "Knockback Resistance: %s",
   "gui.pioneer.playerdata.attribute.luck": "Luck: %s",
-  "gui.pioneer.playerdata.attribute.movement_speed": "Movement Speed: %s"
+  "gui.pioneer.playerdata.attribute.movement_speed": "Movement Speed: %s",
+  "gui.pioneer.playerdata.ability": "Ability",
+  "gui.pioneer.playerdata.ability.strength": "Strength: %d",
+  "gui.pioneer.playerdata.ability.dexterity": "Dexterity: %d",
+  "gui.pioneer.playerdata.ability.intelligence": "Intelligence: %d",
+  "gui.pioneer.playerdata.ability.wisdom": "Wisdom: %d",
+  "gui.pioneer.playerdata.class": "Class: %s",
+  "gui.pioneer.playerdata.class.none": "None",
+  "gui.pioneer.playerdata.class.fighter": "Fighter",
+  "gui.pioneer.playerdata.class.rogue": "Rogue",
+  "gui.pioneer.playerdata.class.wizard": "Wizard",
+  "gui.pioneer.playerdata.class.cleric": "Cleric"
 }

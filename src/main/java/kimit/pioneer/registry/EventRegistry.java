@@ -18,6 +18,7 @@ public class EventRegistry
 			((PlayerDataAccessor) newPlayer).setPlayerData(data);
 			data.Attributes.forEach((id, value) ->
 					newPlayer.getAttributeInstance(Elixirs.getElixir(id).Attribute().Attribute()).addPersistentModifier(new EntityAttributeModifier("Elixir bonus", value, EntityAttributeModifier.Operation.ADDITION)));
+			data.Class.clear(newPlayer);
 			data.Class.apply(newPlayer);
 		}));
 	}

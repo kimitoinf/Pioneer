@@ -60,10 +60,10 @@ public class ClassElixirItem extends Item
 				ClassElixir elixir = ClassElixirUtil.getClassElixir(stack);
 				if (elixir != null)
 				{
-					PlayerState.getPlayerData(player).Class = elixir.Class();
 					((PlayerDataAccessor) user).setPlayerData(PlayerState.getPlayerData(user));
 					elixir.Class().clear(player);
 					elixir.Class().apply(player);
+					PlayerState.getPlayerData(player).Class = elixir.Class();
 				}
 			}
 

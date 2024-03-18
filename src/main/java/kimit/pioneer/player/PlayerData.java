@@ -1,5 +1,6 @@
 package kimit.pioneer.player;
 
+import kimit.pioneer.player.abilities.PlayerAbilities;
 import kimit.pioneer.player.classes.PlayerClass;
 import kimit.pioneer.player.classes.PlayerClasses;
 import net.minecraft.nbt.NbtCompound;
@@ -15,6 +16,12 @@ public class PlayerData
 	public final Map<String, Float> Attributes = new HashMap<>();
 	public final Map<String, Integer> Abilities = new HashMap<>();
 	public PlayerClass Class = PlayerClasses.NONE;
+
+	public PlayerData()
+	{
+		for (String loop : PlayerAbilities.ABILITIES)
+			Abilities.put(loop, 0);
+	}
 
 	public NbtCompound getNbt()
 	{

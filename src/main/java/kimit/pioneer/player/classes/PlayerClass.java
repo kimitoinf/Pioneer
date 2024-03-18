@@ -1,5 +1,7 @@
 package kimit.pioneer.player.classes;
 
+import kimit.pioneer.player.PlayerDataAccessor;
+import kimit.pioneer.player.PlayerState;
 import kimit.pioneer.player.abilities.PlayerAbilities;
 import kimit.pioneer.player.attributes.PlayerAttribute;
 import kimit.pioneer.player.attributes.PlayerAttributes;
@@ -48,6 +50,10 @@ public class PlayerClass
 	{
 		for (Map.Entry<PlayerAttribute, Float> loop : Attributes.entrySet())
 			player.getAttributeInstance(loop.getKey().Attribute()).addPersistentModifier(new EntityAttributeModifier(CLASS_MODIFIER_UUID, "Class bonus", loop.getValue(), EntityAttributeModifier.Operation.ADDITION));
+		Map<String, Integer> abilities = PlayerState.getPlayerData(player).Abilities;
+		for (String loop : PlayerAbilities.ABILITIES)
+			abilities.put(loop, abilities.get(loop) + Abilities.get(loop));
+		((PlayerDataAccessor) player).setPlayerData(PlayerState.getPlayerData(player));
 		player.setHealth((float) player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getValue());
 	}
 
@@ -55,6 +61,11 @@ public class PlayerClass
 	{
 		for (Map.Entry<PlayerAttribute, Float> loop : Attributes.entrySet())
 			player.getAttributeInstance(loop.getKey().Attribute()).removeModifier(CLASS_MODIFIER_UUID);
+		Map<String, Integer> abilities = PlayerState.getPlayerData(player).Abilities;
+		for (String loop : PlayerAbilities.ABILITIES)
+			abilities.put(loop, abilities.get(loop) - PlayerState.getPlayerData(player).Class.Abilities.get(loop));
+		((PlayerDataAccessor) player).setPlayerData(PlayerState.getPlayerData(player));
+		player.setHealth((float) player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getValue());
 	}
 
 	public PlayerClass health(float health)
