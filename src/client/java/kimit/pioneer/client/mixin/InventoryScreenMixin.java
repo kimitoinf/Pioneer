@@ -3,6 +3,7 @@ package kimit.pioneer.client.mixin;
 import kimit.pioneer.Pioneer;
 import kimit.pioneer.player.PlayerDataAccessor;
 import kimit.pioneer.player.abilities.PlayerAbilities;
+import kimit.pioneer.player.abilities.PlayerAbility;
 import kimit.pioneer.player.attributes.PlayerAttribute;
 import kimit.pioneer.player.attributes.PlayerAttributes;
 import kimit.pioneer.player.classes.PlayerClasses;
@@ -42,7 +43,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
 			PlayerAttributes.MOVEMENT_SPEED
 	};
 	@Unique
-	private static final String[] ABILITIES = {
+	private static final PlayerAbility[] ABILITIES = {
 			PlayerAbilities.STRENGTH,
 			PlayerAbilities.DEXTERITY,
 			PlayerAbilities.INTELLIGENCE,
@@ -69,8 +70,8 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
 			Attributes[loop] = Text.translatable(KEY + "." + PlayerAttributes.PREFIX + "." + ATTRIBUTES[loop].Id(),
 					String.format("%.2f", Math.round(client.player.getAttributeInstance(ATTRIBUTES[loop].Attribute()).getValue() * 1000) / 1000.0));
 		for (int loop = 0; loop < Abilities.length; loop++)
-			Abilities[loop] = Text.translatable(KEY + "." + PlayerAbilities.PREFIX + "." + ABILITIES[loop],
-					((PlayerDataAccessor)(Object) this.client.player).getPlayerData().Abilities.get(ABILITIES[loop]));
+			Abilities[loop] = Text.translatable(KEY + "." + PlayerAbilities.PREFIX + "." + ABILITIES[loop].getId(),
+					((PlayerDataAccessor) this.client.player).getPlayerData().Abilities.get(ABILITIES[loop].getId()).getValue());
 	}
 
 	@Inject(method = "drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V", at = @At("HEAD"))
@@ -82,7 +83,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
 		stack.push();
 		stack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
-		context.drawText(this.textRenderer, Text.translatable(KEY + "." + PlayerClasses.PREFIX, Text.translatable(KEY + "." + PlayerClasses.PREFIX + "." + ((PlayerDataAccessor)(Object) this.client.player).getPlayerData().Class.getId())),
+		context.drawText(this.textRenderer, Text.translatable(KEY + "." + PlayerClasses.PREFIX, Text.translatable(KEY + "." + PlayerClasses.PREFIX + "." + ((PlayerDataAccessor) this.client.player).getPlayerData().Class.getId())),
 				(int) (POS_MULTIPLIER * 10), (int) (POS_MULTIPLIER * (this.y + 5)), 4210752, false);
 		context.drawText(this.textRenderer, Text.translatable(KEY + "." + PlayerAttributes.PREFIX),
 				(int) (POS_MULTIPLIER * 10), (int) (POS_MULTIPLIER * (this.y + 20)), 4210752, false);

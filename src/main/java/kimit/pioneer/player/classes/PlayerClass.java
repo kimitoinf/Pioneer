@@ -3,6 +3,8 @@ package kimit.pioneer.player.classes;
 import kimit.pioneer.player.PlayerDataAccessor;
 import kimit.pioneer.player.PlayerState;
 import kimit.pioneer.player.abilities.PlayerAbilities;
+import kimit.pioneer.player.abilities.PlayerAbility;
+import kimit.pioneer.player.abilities.PlayerAbilityModifier;
 import kimit.pioneer.player.attributes.PlayerAttribute;
 import kimit.pioneer.player.attributes.PlayerAttributes;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -16,9 +18,10 @@ import java.util.UUID;
 public class PlayerClass
 {
 	public static final UUID CLASS_MODIFIER_UUID = UUID.fromString("d5106978-3bad-4d72-a529-85b644c1ae7a");
+	public static final String CLASS_ABILITY_ID = "class";
 	private final String Id;
 	private final Map<PlayerAttribute, Float> Attributes = new HashMap<>();
-	private final Map<String, Integer> Abilities = new HashMap<>();
+	private final Map<String, PlayerAbilityModifier> Abilities = new HashMap<>();
 
 	public PlayerClass(String id)
 	{
@@ -26,9 +29,6 @@ public class PlayerClass
 
 		for (PlayerAttribute loop : PlayerAttributes.ATTRIBUTES)
 			Attributes.put(loop, 0.0f);
-
-		for (String loop : PlayerAbilities.ABILITIES)
-			Abilities.put(loop, 0);
 	}
 
 	public String getId()
@@ -41,18 +41,16 @@ public class PlayerClass
 		return Attributes.get(attribute);
 	}
 
-	public int getAbilityValue(String ability)
-	{
-		return Abilities.get(ability);
-	}
-
 	public void apply(PlayerEntity player)
 	{
 		for (Map.Entry<PlayerAttribute, Float> loop : Attributes.entrySet())
 			player.getAttributeInstance(loop.getKey().Attribute()).addPersistentModifier(new EntityAttributeModifier(CLASS_MODIFIER_UUID, "Class bonus", loop.getValue(), EntityAttributeModifier.Operation.ADDITION));
-		Map<String, Integer> abilities = PlayerState.getPlayerData(player).Abilities;
-		for (String loop : PlayerAbilities.ABILITIES)
-			abilities.put(loop, abilities.get(loop) + Abilities.get(loop));
+		for (PlayerAbility loop : PlayerAbilities.ABILITIES)
+		{
+			PlayerAbilityModifier modifier = Abilities.get(loop.getId());
+			if (modifier != null && modifier.Value() != 0)
+				PlayerState.getPlayerData(player).Abilities.get(loop.getId()).addModifier(modifier);
+		}
 		((PlayerDataAccessor) player).setPlayerData(PlayerState.getPlayerData(player));
 		player.setHealth((float) player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getValue());
 	}
@@ -61,9 +59,8 @@ public class PlayerClass
 	{
 		for (Map.Entry<PlayerAttribute, Float> loop : Attributes.entrySet())
 			player.getAttributeInstance(loop.getKey().Attribute()).removeModifier(CLASS_MODIFIER_UUID);
-		Map<String, Integer> abilities = PlayerState.getPlayerData(player).Abilities;
-		for (String loop : PlayerAbilities.ABILITIES)
-			abilities.put(loop, abilities.get(loop) - PlayerState.getPlayerData(player).Class.Abilities.get(loop));
+		for (PlayerAbility loop : PlayerAbilities.ABILITIES)
+			PlayerState.getPlayerData(player).Abilities.get(loop.getId()).removeModifier(CLASS_ABILITY_ID);
 		((PlayerDataAccessor) player).setPlayerData(PlayerState.getPlayerData(player));
 		player.setHealth((float) player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).getValue());
 	}
@@ -118,25 +115,25 @@ public class PlayerClass
 
 	public PlayerClass strength(int strength)
 	{
-		Abilities.put(PlayerAbilities.STRENGTH, strength);
+		Abilities.put(PlayerAbilities.STRENGTH.getId(), new PlayerAbilityModifier(CLASS_ABILITY_ID, strength));
 		return this;
 	}
 
 	public PlayerClass dexterity(int dexterity)
 	{
-		Abilities.put(PlayerAbilities.DEXTERITY, dexterity);
+		Abilities.put(PlayerAbilities.DEXTERITY.getId(), new PlayerAbilityModifier(CLASS_ABILITY_ID, dexterity));
 		return this;
 	}
 
 	public PlayerClass intelligence(int intelligence)
 	{
-		Abilities.put(PlayerAbilities.INTELLIGENCE, intelligence);
+		Abilities.put(PlayerAbilities.INTELLIGENCE.getId(), new PlayerAbilityModifier(CLASS_ABILITY_ID, intelligence));
 		return this;
 	}
 
 	public PlayerClass wisdom(int wisdom)
 	{
-		Abilities.put(PlayerAbilities.WISDOM, wisdom);
+		Abilities.put(PlayerAbilities.WISDOM.getId(), new PlayerAbilityModifier(CLASS_ABILITY_ID, wisdom));
 		return this;
 	}
 }
